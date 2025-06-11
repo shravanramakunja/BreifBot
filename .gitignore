@@ -1,20 +1,20 @@
-# Environment file (contains your secret API key)
+Environment file 
 .env
 
-# Python cache files
+ Python cache files
 __pycache__/
 *.pyc
 *.pyo
 
-# Virtual environment folders
+
 venv/
 env/
 .venv/
 
-# IDE files
+IDE files
 .vscode/
 .idea/
 
-# OS files
+ OS files
 .DS_Store
 Thumbs.db
