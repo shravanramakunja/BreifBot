@@ -47,10 +47,10 @@ A simple and powerful tool that uses AI to automatically summarize any website c
 
 
 ai-website-summarizer/
-├── main.py
-├── requirements.txt
-├── .gitignore          # Make sure this exists
-└── README.md
+-├── main.py
+-├── requirements.txt
+-├── .gitignore          
+-└── README.md
 
 
 
