@@ -37,8 +37,10 @@ A simple and powerful tool that uses AI to automatically summarize any website c
 
 
 ## 📖 How to Use
- 1. Run Main.py
- 2. Enter the website url
+1. Run the `requirement.txt` file
+2. Set up the `API` key
+3.Run Main.py
+4.Enter the website url
 
 
 ## File Structure 
