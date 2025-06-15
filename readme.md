@@ -1,4 +1,4 @@
-# AI Website Summarizer 
+# BriefBot
 
 A simple and powerful tool that uses AI to automatically summarize any website content. Built with Beautiful Soup for web scraping and Google Gemini AI for intelligent summarization.
 
