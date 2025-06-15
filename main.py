@@ -36,14 +36,19 @@ def summarize_text(text, summary_type):
     try:
         if len(text) > 10000:
             text = text[:10000] + "..."
+   
         prompts = {
-            "1": f"Please summarize this website content in a general overview, about 300-400 words and include the main points:\n\n{text}",
-            "2": f"Summarize the following content as an article summary:\n\nInclude a title, introduction, main points, supporting details, and a conclusion. Focus on clarity and conciseness:\n\n{text}",
-            "3": f"Summarize the following content as a project summary:\n\nInclude the purpose, steps taken, results, and implications:\n\n{text}",
-            "4": f"Summarize the following content in bullet points, highlighting key takeaways:\n\n{text}",
-            "5": f"Summarize the following content as a research summary:\n\nInclude the research question, methodology, results, and conclusion:\n\n{text}",
-            "6": f"Summarize the following content as a resume summary:\n\nHighlight relevant skills and experience, and present as a brief professional profile:\n\n{text}"
-        }
+     "1": f"Write a conversational, general overview of the website content as a single paragraph (about 5000–4000 words). Focus on summarizing the main themes and purpose in a way that is easy for anyone to understand. Do not use bullet points or numbered lists.\n\n{text}",
+    "2": f"Summarize this content as a formal article. Start with a concise, informative title. Then, provide a brief introduction, followed by main points with supporting details, and conclude with a final thought. Use clear section headings for each part. Keep the tone formal and avoid bullet points.\n\n{text}",
+    "3": f"Summarize this content as a structured project summary. Begin with the project's purpose or objective. Then, outline the main steps or stages. Next, describe the results or outcomes, and finish by discussing the implications or impact. Use labeled sections for each part. Keep the tone professional and factual.\n\n{text}",
+    "4": f"Summarize the main content as a numbered list. Each numbered point should be a short, clear statement capturing a key idea, feature, or insight about the website. Use your own words. Prioritize the most important and unique information. Limit the summary to 5–10 numbered bullets. Do not use paragraphs or section headings.\n\nExample format:\n1. About the website\n2. Description of the website\n3. Main features or purpose\n4. Unique insights or key information\n5. Important highlights\n\n{text}",
+    "5": f"Summarize this content as an IEEE research paper abstract. Structure your summary as follows: Start with the word 'Abstract' (italicized and bold), followed by an em dash. Then, provide a concise, self-contained summary of the research question, methodology, main findings, and conclusions. Keep the abstract to one paragraph, 150–250 words. End with a list of keywords relevant to the content. Use a formal, academic tone. Example:\n\n*Abstract* **—This study investigates ... The methodology ... The results show ... The conclusion ...**\n\nKeywords: keyword1, keyword2, keyword3\n\n{text}",
+    "6": f"Summarize this content as a professional resume summary. Highlight the most relevant skills, experience, and achievements. Present the information as a brief, polished professional profile suitable for a resume. Keep it concise and focused on qualifications and suitability for a job. Use a professional tone and avoid bullet points.\n\n{text}"
+}
+
+
+
+
         prompt = prompts.get(summary_type, prompts["1"])
         response = model.generate_content(prompt)
         return response.text
