@@ -41,6 +41,7 @@ A simple and powerful tool that uses AI to automatically summarize any website c
 - Set up the `API` key
 - Run Main.py
 - Enter the website url
+- Get the summary in the desired format 
 - Save the pdf either as pdf or doc 
 
 
