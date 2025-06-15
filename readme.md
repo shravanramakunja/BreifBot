@@ -37,9 +37,9 @@ A simple and powerful tool that uses AI to automatically summarize any website c
 
 
 ##  How to Use
-- Run the `requirement.txt` file
+- Run the `requirements.txt` file
 - Set up the `API` key
-- Run Main.py
+- Run streamlit run main.py
 - Enter the website url
 - Get the summary in the desired format 
 - Save the pdf either as pdf or doc 
