@@ -7,22 +7,6 @@ from fpdf import FPDF
 from docx import Document
 import streamlit as st
 
-# ======================================================
-# Key Improvements (as comments)
-# - Summary Type Selection: The user can choose from six different summary types.
-# - Prompt Customization: Each summary type uses a tailored prompt.
-# - User Experience: Streamlit provides a clean, interactive UI.
-#
-# Summary Type Details
-# | Option | Summary Type      | Prompt Focus                                              |
-# |--------|------------------|-----------------------------------------------------------|
-# | 1      | Default summary  | General overview, main points                             |
-# | 2      | Article summary  | Title, introduction, main points, supporting details, conclusion |
-# | 3      | Project summary  | Purpose, steps, results, implications                     |
-# | 4      | Bullet summary   | Key points in bullet format                               |
-# | 5      | Research summary | Research question, methodology, results, conclusion       |
-# | 6      | Resume summary   | Skills, experience, brief professional profile            |
-# ======================================================
 
 load_dotenv()
 api_key = os.getenv('GEMINI_API_KEY')
@@ -81,8 +65,8 @@ def create_docx(text, filename):
     doc.save(filename)
     return filename
 
-st.title("AI Website Summarizer")
-
+st.title("Brief")
+st.write("Summarize any website content with ease using AI ")
 url = st.text_input("Enter website URL:")
 if not url:
     st.warning("Please enter a valid URL")

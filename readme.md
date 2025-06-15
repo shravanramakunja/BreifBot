@@ -48,8 +48,7 @@ A simple and powerful tool that uses AI to automatically summarize any website c
 
 ## File Structure 
 
-
-ai-website-summarizer/
+website/
 - main.py
 - requirements.txt
 - .gitignore          
