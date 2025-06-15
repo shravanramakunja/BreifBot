@@ -1,4 +1,6 @@
+google-generativeai
 requests
 beautifulsoup4
-google-generativeai
 python-dotenv
+fpdf
+python-docx
