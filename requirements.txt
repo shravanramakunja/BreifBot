@@ -1,6 +1,7 @@
-google-generativeai
+streamlit
 requests
 beautifulsoup4
 python-dotenv
-fpdf
+google-generativeai
+fpdf2
 python-docx

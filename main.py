@@ -5,7 +5,25 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from fpdf import FPDF
 from docx import Document
-# Load environment variables
+import streamlit as st
+
+# ======================================================
+# Key Improvements (as comments)
+# - Summary Type Selection: The user can choose from six different summary types.
+# - Prompt Customization: Each summary type uses a tailored prompt.
+# - User Experience: Streamlit provides a clean, interactive UI.
+#
+# Summary Type Details
+# | Option | Summary Type      | Prompt Focus                                              |
+# |--------|------------------|-----------------------------------------------------------|
+# | 1      | Default summary  | General overview, main points                             |
+# | 2      | Article summary  | Title, introduction, main points, supporting details, conclusion |
+# | 3      | Project summary  | Purpose, steps, results, implications                     |
+# | 4      | Bullet summary   | Key points in bullet format                               |
+# | 5      | Research summary | Research question, methodology, results, conclusion       |
+# | 6      | Resume summary   | Skills, experience, brief professional profile            |
+# ======================================================
+
 load_dotenv()
 api_key = os.getenv('GEMINI_API_KEY')
 
@@ -14,9 +32,7 @@ model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
 def get_website_text(url):
     try:
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        }
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
@@ -36,8 +52,6 @@ def summarize_text(text, summary_type):
     try:
         if len(text) > 10000:
             text = text[:10000] + "..."
-        
-        # Define prompts for each summary type
         prompts = {
             "1": f"Please summarize this website content in a general overview, about 300-400 words and include the main points:\n\n{text}",
             "2": f"Summarize the following content as an article summary:\n\nInclude a title, introduction, main points, supporting details, and a conclusion. Focus on clarity and conciseness:\n\n{text}",
@@ -46,84 +60,87 @@ def summarize_text(text, summary_type):
             "5": f"Summarize the following content as a research summary:\n\nInclude the research question, methodology, results, and conclusion:\n\n{text}",
             "6": f"Summarize the following content as a resume summary:\n\nHighlight relevant skills and experience, and present as a brief professional profile:\n\n{text}"
         }
-        prompt = prompts.get(summary_type, prompts["1"])  # Default to general if not found
+        prompt = prompts.get(summary_type, prompts["1"])
         response = model.generate_content(prompt)
         return response.text
     except Exception as e:
         return f"Error creating summary: {e}"
 
-def save_as_pdf(text, filename):
+def create_pdf(text, filename):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
     for line in text.split('\n'):
         pdf.multi_cell(0, 10, txt=line)
     pdf.output(filename)
-    print(f"Summary saved as PDF: {filename}")
+    return filename
 
-def save_as_docx(text, filename):
+def create_docx(text, filename):
     doc = Document()
     doc.add_paragraph(text)
     doc.save(filename)
-    print(f"Summary saved as DOCX: {filename}")
+    return filename
 
-def main():
-    print("=== AI Website Summarizer ===")
-    print()
-    url = input("Enter website URL: ").strip()
-    if not url:
-        print("Please enter a valid URL")
-        return
-    if not url.startswith(('http://', 'https://')):
-        url = 'https://' + url
+st.title("AI Website Summarizer")
 
-    print("Getting website content...")
+url = st.text_input("Enter website URL:")
+if not url:
+    st.warning("Please enter a valid URL")
+    st.stop()
+
+if not url.startswith(('http://', 'https://')):
+    url = 'https://' + url
+
+with st.spinner("Getting website content..."):
     website_text = get_website_text(url)
     if website_text.startswith("Error"):
-        print(website_text)
-        return
+        st.error(website_text)
+        st.stop()
 
-    # Prompt for summary type
-    print("\nChoose summary type:")
-    print("1. Default summary (general overview)")
-    print("2. Article summary")
-    print("3. Project summary")
-    print("4. Bullet summary")
-    print("5. Research summary")
-    print("6. Resume summary")
-    while True:
-        summary_type = input("Enter choice (1-6): ").strip()
-        if summary_type in ["1", "2", "3", "4", "5", "6"]:
-            break
-        print("Invalid choice. Please enter a number from 1 to 6.")
+summary_type = st.selectbox(
+    "Choose summary type:",
+    [
+        "Default summary (general overview)",
+        "Article summary",
+        "Project summary",
+        "Bullet summary",
+        "Research summary",
+        "Resume summary"
+    ]
+)
+summary_type_key = str(summary_type.index(summary_type) + 1)
 
-    print("Creating summary...")
-    summary = summarize_text(website_text, summary_type)
-    print("\n" + "="*50)
-    print("SUMMARY:")
-    print("="*50)
-    print(summary)
-    print("\n" + "="*50)
+with st.spinner("Creating summary..."):
+    summary = summarize_text(website_text, summary_type_key)
 
-    # Ask user if they want to save the summary
-    while True:
-        choice = input("Do you want to save the summary as (P)DF, (D)OCX, or (N)othing? [P/D/N]: ").strip().upper()
-        if choice in ['P', 'D', 'N']:
-            break
-        print("Invalid choice. Please enter 'P' for PDF, 'D' for DOCX, or 'N' for nothing.")
+st.subheader("Summary")
+st.markdown("---")
+st.write(summary)
+st.markdown("---")
 
-    if choice == 'N':
-        print("Summary not saved. Exiting.")
-        return
+save_option = st.radio(
+    "Do you want to save the summary?",
+    ["No", "PDF", "DOCX"]
+)
 
-    filename = input("Enter the filename (without extension): ").strip()
-    if not filename:
-        filename = "website_summary"
-
-    if choice == 'P':
-        save_as_pdf(summary, f"{filename}.pdf")
-    else:
-        save_as_docx(summary, f"{filename}.docx")
-
-if __name__ == "__main__":
-    main()
+if save_option != "No":
+    filename = st.text_input("Enter the filename (without extension):", value="website_summary")
+    if st.button("Save"):
+        if save_option == "PDF":
+            file_path = create_pdf(summary, f"{filename}.pdf")
+            with open(file_path, "rb") as f:
+                st.download_button(
+                    label="Download PDF",
+                    data=f,
+                    file_name=f"{filename}.pdf",
+                    mime="application/pdf"
+                )
+        else:
+            file_path = create_docx(summary, f"{filename}.docx")
+            with open(file_path, "rb") as f:
+                st.download_button(
+                    label="Download DOCX",
+                    data=f,
+                    file_name=f"{filename}.docx",
+                    mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                )
