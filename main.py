@@ -65,7 +65,7 @@ def create_docx(text, filename):
     doc.save(filename)
     return filename
 
-st.title("Brief")
+st.title("BriefBot")
 st.write("Summarize any website content with ease using AI ")
 url = st.text_input("Enter website URL:")
 if not url:
