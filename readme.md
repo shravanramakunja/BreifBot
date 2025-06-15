@@ -36,21 +36,21 @@ A simple and powerful tool that uses AI to automatically summarize any website c
 - Replace `your_api_key_here` with your actual API key:
 
 
-## 📖 How to Use
-1. Run the `requirement.txt` file
-2. Set up the `API` key
-3.Run Main.py
-4.Enter the website url
+##  How to Use
+- Run the `requirement.txt` file
+- Set up the `API` key
+- Run Main.py
+- Enter the website url
 
 
 ## File Structure 
 
 
 ai-website-summarizer/
-├── main.py
-├── requirements.txt
-├── .gitignore          # Make sure this exists
-└── README.md
+- main.py
+- requirements.txt
+- .gitignore          
+- README.md
 
 
 
