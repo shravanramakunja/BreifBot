@@ -1,68 +1,90 @@
 # BriefBot
 
-A simple and powerful tool that uses AI to automatically summarize any website content. Built with Beautiful Soup for web scraping and Google Gemini AI for intelligent summarization.
+BriefBot is a Streamlit app that fetches website content and generates AI summaries with Google Gemini. You can choose a summary style and export results as PDF or DOCX.
 
 ## Features
 
-- **Smart Content Extraction**: Automatically extracts main content from websites, removing ads, navigation, and clutter
-- **AI-Powered Summarization**: Uses Google Gemini AI to create intelligent, readable summaries
-- **Multiple Output Options**: View summaries on screen or save them to text files
-- **User-Friendly**: Simple command-line interface that anyone can use
-- **Error Handling**: Robust error handling for network issues and website problems
-- **Fast & Efficient**: Quick processing with optimized content extraction
+- Extracts readable text from a webpage using BeautifulSoup
+- Generates AI summaries with multiple formats
+- Supports download as PDF or DOCX
+- Simple Streamlit UI for quick use
 
-##  Quick Start
+## Prerequisites
 
-### Prerequisites
+- Python 3.9+
+- A Google Gemini API key
 
-- Python 3.7 or higher
-- Google Gemini API key (free from Google AI Studio)
+## Installation
 
-### Installation
+1. Clone the repository:
 
-1. **Clone or download this project**
+```bash
+git clone <your-repo-url>
+cd BreifBot
+```
 
-2. **Install required packages**
+2. Create and activate a virtual environment:
 
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
 
-3. **Get your free API key**
-- Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
-- Create a free account
-- Generate an API key
-- Copy the key
+3. Install dependencies:
 
-4. **Setup environment**
-- Open the `.env` file
-- Replace `your_api_key_here` with your actual API key:
+```bash
+pip install -r requirements.txt
+```
 
+4. Create a `.env` file in the project root:
 
-##  How to Use
-- Run the `requirements.txt` file
-- Set up the `API` key
-- Run streamlit run main.py
-- Enter the website url
-- Get the summary in the desired format 
-- Save the pdf either as pdf or doc 
+```env
+GEMINI_API_KEY=your_api_key_here
+```
 
+## Run the app
 
+```bash
+streamlit run main.py
+```
 
-## File Structure 
+Open the local URL shown by Streamlit (usually `http://localhost:8501`).
 
-website/
-- main.py
-- requirements.txt
-- .gitignore          
-- README.md
+## How to use
 
+1. Enter a website URL.
+2. Choose a summary type:
+   - Default summary (general overview)
+   - Article summary
+   - Project summary
+   - Bullet summary
+   - Research summary
+   - Resume summary
+3. Wait for the generated summary.
+4. Optionally export as PDF or DOCX.
 
+## Project structure
 
-## Sample output 
+```text
+BreifBot/
+├── main.py
+├── requirements.txt
+├── readme.md
+└── website_summary.pdf
+```
 
+## Troubleshooting
 
-Enter website URL: https://edwarddonner.com/
+- **`Error accessing website`**: verify the URL is public and reachable.
+- **Gemini/API errors**: confirm `GEMINI_API_KEY` is set correctly in `.env`.
+- **Dependency issues**: update pip and reinstall:
 
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-## Output 
+## Notes
 
-Ed Donner is a software engineer and AI expert who co-founded Nebula.io, a company using AI to help recruiters find and manage talent.  He previously founded and ran another AI startup.  His website showcases his expertise in LLMs (large language models) and offers courses on the topic. He's also interested in music and technology news.
-
+- Some websites block scraping or require JavaScript rendering.
+- Output quality depends on source content quality and model behavior.
